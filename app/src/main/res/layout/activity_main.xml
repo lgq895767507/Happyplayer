@@ -13,9 +13,24 @@
         android:layout_height="200dp" />
 
     <SeekBar
-        android:layout_marginTop="16dp"
         android:id="@+id/seek_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:max="100" />
+
+    <Button
+        android:id="@+id/pause_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="暂停" />
+
+    <Button
+        android:id="@+id/resume_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="恢复" />
 
 </LinearLayout>

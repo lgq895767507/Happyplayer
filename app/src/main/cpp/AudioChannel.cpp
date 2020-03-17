@@ -105,6 +105,11 @@ void AudioChannel::audio_decode() {
     AVPacket *packet = 0;
     while (isPlaying) {
 
+        if (isPause){
+            //如果暂停了就不执行下面的内容
+            continue;
+        }
+
         int ret = packets.pop(packet);
 
         if (!isPlaying) {
@@ -268,6 +273,12 @@ int AudioChannel::getPCM() {
       swr_init(swrContext);*/
 
     while (isPlaying) {
+
+        if (isPause){
+            continue;
+        }
+
+
         int ret = frames.pop(frame);
 
         if (!isPlaying) {

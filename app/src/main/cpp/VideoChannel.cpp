@@ -93,6 +93,11 @@ void VideoChannel::video_decode() {
     AVPacket *packet = 0;
     while (isPlaying) {
 
+        if (isPause) {
+            //如果暂停了就不执行下面的内容
+            continue;
+        }
+
         int ret = packets.pop(packet);
 
         if (!isPlaying) {
@@ -157,6 +162,15 @@ void VideoChannel::video_play() {
     double fps_delay = 1.0 / fps; //单位是秒
 
     while (isPlaying) {
+
+        if (isPause) {
+            if (frame) {
+                releaseAVFrame(&frame);
+            }
+            continue;
+        }
+
+
         int ret = frames.pop(frame);
 
         if (!isPlaying) {
@@ -191,12 +205,12 @@ void VideoChannel::video_play() {
             //获取音视频播放的时间差
             double time_diff = video_time - audioTime;
 
-            if (time_diff > 0){
+            if (time_diff > 0) {
                 //LOGE("视频比音频快：%lf", time_diff);
                 if (time_diff > 1) {
                     //等音频慢慢赶上来
                     av_usleep((real_delay * 2) * 1000000);
-                } else{
+                } else {
                     av_usleep((real_delay + time_diff) * 1000000);
                 }
             } else if (time_diff < 0) {

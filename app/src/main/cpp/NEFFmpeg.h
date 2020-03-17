@@ -42,6 +42,10 @@ public:
 
     void seekTo(int i);
 
+    void pause();
+
+    void resume();
+
 private:
     JavaCallHelper *javaCallHelper = 0;
     AudioChannel *audioChannel = 0;

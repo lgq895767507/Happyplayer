@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private int duration;//总时长
     private boolean isTouch;//设置是否正点击进度条
     private boolean isSeek;//设置是否正在拖动进度条
-    //todo 如果正好播放结束后，没有释放资源
 
 
     @Override
@@ -30,9 +31,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        surfaceView = findViewById(R.id.surfaceView);
-        seekBar = findViewById(R.id.seek_bar);
-        seekBar.setOnSeekBarChangeListener(this);
+        initView();
 
         playerNative = new PlayerNative();
         playerNative.setSurfaceView(surfaceView);
@@ -98,6 +97,15 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         });
     }
 
+    private void initView() {
+        surfaceView = findViewById(R.id.surfaceView);
+        seekBar = findViewById(R.id.seek_bar);
+
+        seekBar.setOnSeekBarChangeListener(this);
+        findViewById(R.id.pause_btn).setOnClickListener(btnOnclickListener);
+        findViewById(R.id.resume_btn).setOnClickListener(btnOnclickListener);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -141,4 +149,18 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         // 手动拖动进度条，要能跳到指定的播放进度  av_seek_frame
         playerNative.seekTo(playProgress);
     }
+
+    private View.OnClickListener btnOnclickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.pause_btn:
+                    playerNative.pause();
+                    break;
+                case R.id.resume_btn:
+                    playerNative.resume();
+                    break;
+            }
+        }
+    };
 }

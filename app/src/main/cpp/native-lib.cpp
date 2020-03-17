@@ -129,3 +129,19 @@ Java_com_lewis_happyplayer_PlayerNative_seekToNative(JNIEnv *env, jobject thiz, 
         ffmpeg->seekTo(playProgress);
     }
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lewis_happyplayer_PlayerNative_pauseNative(JNIEnv *env, jobject thiz) {
+    if (ffmpeg) {
+        ffmpeg->pause();
+    }
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lewis_happyplayer_PlayerNative_resumeNative(JNIEnv *env, jobject thiz) {
+    if (ffmpeg) {
+        ffmpeg->resume();
+    }
+}

@@ -85,12 +85,20 @@ public class PlayerNative implements SurfaceHolder.Callback {
         stopNative();
     }
 
-    public int getDuration(){
+    public void pause() {
+        pauseNative();
+    }
+
+    public void resume() {
+        resumeNative();
+    }
+
+    public int getDuration() {
         return getDurationNative();
     }
 
     public void seekTo(final int playProgress) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 seekToNative(playProgress);
@@ -131,6 +139,7 @@ public class PlayerNative implements SurfaceHolder.Callback {
 
     /**
      * native回调，返回当前进度
+     *
      * @param progress
      */
     public void onProgress(int progress) {
@@ -170,16 +179,26 @@ public class PlayerNative implements SurfaceHolder.Callback {
         void onError(int errorCode);
     }
 
-    public interface OnProgressListener{
+    public interface OnProgressListener {
         void onProgress(int progress);
     }
 
 
     private native void setSurfaceNative(Surface surface);
+
     private native void prepareNative(String dataSource);
+
     private native void startNative();
+
     private native void stopNative();
+
     private native void releaseNative();
+
     private native int getDurationNative();
+
     private native void seekToNative(int playProgress);
+
+    private native void pauseNative();
+
+    private native void resumeNative();
 }

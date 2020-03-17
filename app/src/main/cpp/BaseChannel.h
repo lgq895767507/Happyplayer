@@ -71,6 +71,7 @@ public:
     SafeQueue<AVFrame *> frames;
     int id;
     bool isPlaying = 0;
+    bool isPause = 0;
     AVCodecContext *codecContext;
     AVRational time_base;
     double audio_time;

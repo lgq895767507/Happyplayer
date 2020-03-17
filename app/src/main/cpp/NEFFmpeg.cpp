@@ -168,7 +168,6 @@ void NEFFmpeg::_prepare() {
     }//end for
     if (!audioChannel && !videoChannel) {
         //既没有音频也没有视频
-        //TODO 作业:反射通知java
         LOGE("没有音视频");
         if (javaCallHelper) {
             javaCallHelper->onError(THREAD_CHILD, FFMPEG_NOMEDIA);
@@ -256,7 +255,6 @@ void NEFFmpeg::_start() {
                 break;
             }
         } else {
-            //TODO 作业:反射通知java
             LOGE("读取音视频数据包失败");
             if (javaCallHelper) {
                 javaCallHelper->onError(THREAD_CHILD, FFMPEG_READ_PACKETS_FAIL);
@@ -304,7 +302,6 @@ int NEFFmpeg::getDuration() const {
 }
 
 void NEFFmpeg::seekTo(int playProgress) {
-
     if (playProgress < 0 || playProgress > duration) {
         if (javaCallHelper) {
             javaCallHelper->onError(THREAD_CHILD, ERROR_CODE_PROGRESS);
@@ -368,5 +365,25 @@ void NEFFmpeg::seekTo(int playProgress) {
     }
 
     pthread_mutex_unlock(&seekMutex);
+}
+
+void NEFFmpeg::pause() {
+    if (audioChannel) {
+        audioChannel->isPause = 1;
+    }
+
+    if (videoChannel) {
+        videoChannel->isPause = 1;
+    }
+}
+
+void NEFFmpeg::resume() {
+    if (audioChannel) {
+        audioChannel->isPause = 0;
+    }
+
+    if (videoChannel) {
+        videoChannel->isPause = 0;
+    }
 }
 
